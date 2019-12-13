@@ -151,18 +151,18 @@ $ cp config/serviceLogConfig.sample.json config/serviceLogConfig.json
 
 ## EPGStation の起動 / 終了
 - 自動で起動する場合
-	- [pm2](http://pm2.keymetrics.io/) を利用して自動起動設定が可能.
-	- 初回のみ以下の起動設定が必要.
+    - [pm2](http://pm2.keymetrics.io/) を利用して自動起動設定が可能.
+    - 初回のみ以下の起動設定が必要.
 
-	```
-	$ sudo npm install pm2 -g
-	$ sudo pm2 start dist/server/index.js --name "epgstation"
-	$ sudo pm2 save
-	```
+    ```
+    $ sudo npm install pm2 -g
+    $ sudo pm2 start dist/server/index.js --name "epgstation"
+    $ sudo pm2 save
+    ```
 - 自動起動した EPGStation を終了する場合
-	```
-	$ sudo pm2 stop epgstation
-	```
+    ```
+    $ sudo pm2 stop epgstation
+    ```
 - 状態を確認する方法
    ```
    sudo pm2 status
@@ -174,4 +174,3 @@ EPGStation 使用中は MySQL のバイナリログが大量に生成されて�
 ```
 expire_logs_days = 1
 ```
-

@@ -5,12 +5,14 @@
 
 
 ## Node.js のインストール
+
 ```bash
 $ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 $ sudo apt install nodejs
 ```
 
 ## Mirakurun のインストール
+
 ```bash
 ## pm2 とMirakurun のインストール
 $ sudo npm install pm2 -g
@@ -21,6 +23,7 @@ $ sudo mirakurun init
 ```
 
 ## Mirakurun の設定
+
 ```bash
 ## mirakurun コマンドでファイルを開く場合
 $ sudo EDITOR=emacs mirakurun config server    # サーバの設定
@@ -34,6 +37,7 @@ $ sudo emacs -nw /usr/local/etc/mirakurun/channels.yml　# チャンネルの設
 ```
 
 ## チューナーの設定
+
 ```bash
 ## チューナーの設定 (emacs)
 $ sudo EDITOR=emacs mirakurun config tuners
@@ -41,6 +45,7 @@ $ sudo EDITOR=emacs mirakurun config tuners
 ## チューナーの設定を見るだけ
 $ cat /usr/local/etc/mirakurun/tuners.yml
 ```
+
 ```yaml
 - name: PT3-S1
   types:
@@ -103,6 +108,7 @@ https://github.com/l3tnun/EPGStation/blob/master/doc/linux-setup.md
 ただ, ハマりどころがいくつかあったので, メモを残しておく.
 
 #### 1. EPGStation のインストール
+
 ```bash
 $ cd ~/opt/
 $ git clone https://github.com/l3tnun/EPGStation.git
@@ -112,6 +118,7 @@ $ npm run build
 ```
 
 #### 2. 設定ファイルの作成
+
 ```bash
 $ cp config/config.sample.json config/config.json
 $ cp config/operatorLogConfig.sample.json config/operatorLogConfig.json
@@ -120,6 +127,7 @@ $ cp config/serviceLogConfig.sample.json config/serviceLogConfig.json
 
 #### 3. 設定ファイルの編集
 `config/config.sample.json` と `config/config.json` の差分を以下に示す.
+
 ```diff
 --- config/config.sample.json   2019-12-13 08:57:02.207801030 +0900
 +++ config/config.json  2019-12-13 16:18:09.761417467 +0900
@@ -159,17 +167,23 @@ $ cp config/serviceLogConfig.sample.json config/serviceLogConfig.json
     $ sudo pm2 start dist/server/index.js --name "epgstation"
     $ sudo pm2 save
     ```
+
 - 自動起動した EPGStation を終了する場合
+
     ```
     $ sudo pm2 stop epgstation
     ```
+
 - 状態を確認する方法
+
    ```
    sudo pm2 status
    ```
+
 ## MySQL 使用時の注意
 
 EPGStation 使用中は MySQL のバイナリログが大量に生成されてディスクを圧迫するので, MySQL の設定を変えることを推奨.
+
 
 ```
 expire_logs_days = 1
@@ -180,6 +194,7 @@ expire_logs_days = 1
 - `system.log` において `[INFO] system - wait DB` が出た.
   多くの場合は DB へのログインに失敗している.<br>
   確認したログは以下の2個.
+
 
   ```bash
   ## まずはsystem.log
@@ -195,11 +210,13 @@ expire_logs_days = 1
   原因は `epgstation@127.0.0.1` でのログイン失敗してるもの.<br>
   実はこのエラーが出た時 `epgstation` ユーザのログイン権限において,
 
+
   ```bash
   mysql> GRANT ALL ON epgstation.* TO epgstation@127.0.0.1 IDENTIFIED BY 'epgstation';
   ```
 
   をせず
+
 
   ```bash
   mysql> GRANT ALL ON epgstation.* TO epgstation@localhost IDENTIFIED BY 'epgstation';

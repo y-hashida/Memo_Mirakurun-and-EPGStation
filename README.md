@@ -174,3 +174,31 @@ EPGStation 使用中は MySQL のバイナリログが大量に生成されて�
 ```
 expire_logs_days = 1
 ```
+
+## ハマりどころメモ
+
+- `system.log` において `[INFO] system - wait DB` が出た.
+  多くの場合は DB へのログインに失敗している.
+  確認したログは以下の2個.
+  ```bash
+  ## まずはsystem.log
+  $ tail -f ~/opt/EPGStation/logs/Operator/system.log
+  [2019-12-13T16:21:14.085] [INFO] system - wait DB
+
+
+  ## mysql のエラーログも見る
+  $ tail -f /var/log/mysql/error.log
+  2019-12-13T16:21:29.096227+09:00 433 [Note] Access denied for user 'epgstation'@'127.0.0.1' (using password: YES)
+  ```
+  やはりログインに失敗してるエラーだった.
+  原因はepgstation@127.0.0.1 でのログイン失敗してるもの.
+  実はこのエラーが出た時 `epgstation` ユーザのログイン権限において,
+  ```bash
+  mysql> GRANT ALL ON epgstation.* TO epgstation@127.0.0.1 IDENTIFIED BY 'epgstation';
+  ```
+  をせず
+  ```bash
+  mysql> GRANT ALL ON epgstation.* TO epgstation@localhost IDENTIFIED BY 'epgstation';
+  ```
+  のみの設定しかしていなかった.
+  つまり, `epgstation@localhost` ではログインできるが, `epgstation@127.0.0.1` ではログインできないという状態になっていた.

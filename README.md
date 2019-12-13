@@ -1,5 +1,9 @@
 # Mirakurun + EPGStation のインストール・設定
 
+## 前提条件
+前提として MySQL がインストールされているものとする(EPGStation で利用).
+
+
 ## Node.js のインストール
 ```bash
 $ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
